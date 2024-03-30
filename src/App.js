@@ -1,24 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
 import {Planet} from './Planet';
+import {useState} from "react"
+
 
 function App() {
-  const age = 18;
-  const isGreen = true;
-  const names = [
-    { name: "Mars", isGas: false}, 
-    { name:"Earth", isGas: false}, 
-    { name:"Jupiter", isGas: true},
-  ];
+  const [number, setAge] = useState(0);
+  const [text,setText] = useState("");
+  const increaseNumber = () => {
+    setAge(number+1);
+  }
+
+  const changeText = (e) =>{
+    setText(e.target.value)
+  }
 
     return (    
       <div className="App">
-      {names.map((planet, key) => {      
-         if (planet.isGas) return <Planet name={planet.name}></Planet>
-      })}
-      {/* {age >= 18 ? <h1> Over age </h1> : <h1> Under age</h1>}
-      <h1 style={{color: isGreen ? "green" : "red"}}>This has color</h1>
-      {isGreen && <button>Button</button>} */}
+        {number}
+      <button onClick={increaseNumber}> Click</button>
+      <input type= "text" onChange={changeText}></input>
+      {text}
     </div>);
   
 }
