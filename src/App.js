@@ -5,10 +5,11 @@ import {useState} from "react"
 
 
 function App() {
-  const [number, setAge] = useState(0);
+  const [number, setNumber] = useState(0);
   const [text,setText] = useState("");
+  const [showText, setShow] = useState(true);
   const increaseNumber = () => {
-    setAge(number+1);
+    setNumber(number+1);
   }
 
   const changeText = (e) =>{
@@ -17,10 +18,11 @@ function App() {
 
     return (    
       <div className="App">
-        {number}
+        {showText && <h1>{number}</h1>}
       <button onClick={increaseNumber}> Click</button>
       <input type= "text" onChange={changeText}></input>
-      {text}
+        {showText && <h1>{text}</h1>}
+      <button onClick={() => {setShow(!showText); }}> Clear</button>
     </div>);
   
 }
