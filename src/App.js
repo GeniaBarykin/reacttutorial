@@ -1,29 +1,59 @@
 import logo from './logo.svg';
 import './App.css';
-import {Planet} from './Planet';
+import {Task} from "./Task"
 import {useState} from "react"
 
 
+
 function App() {
-  const [number, setNumber] = useState(0);
-  const [text,setText] = useState("");
-  const [showText, setShow] = useState(true);
-  const increaseNumber = () => {
-    setNumber(number+1);
+  const [list, setList] = useState([]);
+  const [newTask, setnewTask] = useState("");
+  const handleChange = (e) => {
+    setnewTask(e.target.value);
   }
 
-  const changeText = (e) =>{
-    setText(e.target.value)
+  const addTask = () => {
+    const task = {
+      id: list.length ===0 ? 1 : list[list.length - 1].id + 1,
+      name: newTask,
+      completed: false,
+    }
+    const newArray = [...list, task]
+    setList(newArray);
   }
 
-    return (    
-      <div className="App">
-        {showText && <h1>{number}</h1>}
-      <button onClick={increaseNumber}> Click</button>
-      <input type= "text" onChange={changeText}></input>
-        {showText && <h1>{text}</h1>}
-      <button onClick={() => {setShow(!showText); }}> Clear</button>
-    </div>);
+  const deleteTask = (id) =>{
+    const newArray = list.filter((task) => {
+      return task.id !== id;
+    })
+    setList(newArray)
+  }
+
+  const updateTask = (id) => {
+    setList(
+      list.map((task)=>{
+        if (task.id === id){
+          return {...task, completed: !task.completed}
+        } else {
+          return task;
+        }
+      })
+    )
+  }
+  
+  return (    
+    <div className="App">
+      <div className="addTask">
+        <input onChange={handleChange}/>
+        <button onClick={addTask}>Add task</button>
+      </div>
+      <div className="list">
+        {list.map((task, i) => {
+          return <Task name={task.name} id = {task.id} completed={task.completed} deleteTask={deleteTask} updateTask={updateTask}/>
+        })}
+      </div>
+    </div>
+  );
   
 }
 
