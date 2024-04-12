@@ -1,28 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
-import {Task} from "./Task"
-import {useState} from "react"
-import Axios from 'axios';
-import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Home } from './pages/Home';
+import { Menu } from './pages/Menu';
+
+const page404 = () =>{
+  console.log("here")
+  return <h1>Page not found</h1>
+}
 
 function App() {
-  const [catFact, setCatFact] = useState("");
   
-  useEffect(() => {
-    fetchCatFact()
-  },[])
-
-  const fetchCatFact = () =>{
-    Axios.get("https://catfact.ninja/fact")
-    .then((res)=>{
-      setCatFact(res.data.fact)
-    })
-  }
 
   return (    
-    <div className="App">
-      <button onClick={fetchCatFact}>Generate catfact</button>
-      <p>{catFact}</p>
+    <div className="App">      
+      <Router>
+        <div>NAVBAR
+          <Link to="/">Home</Link> 
+          <Link to="/Menu" >Menu</Link> 
+        </div>
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/menu" element={<Menu />}/>
+          <Route path="*" element={page404()} />} />
+        </Routes>
+      </Router>
     </div>
   );
   
