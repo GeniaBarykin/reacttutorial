@@ -1,29 +1,35 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Menu } from './pages/Menu';
-
+import { useState, createContext } from 'react';
+import { Profile } from './pages/Profile';
+import { Navbar } from './pages/Navbar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const page404 = () =>{
-  console.log("here")
   return <h1>Page not found</h1>
 }
 
-function App() {
-  
+export const AppContext = createContext();
 
+function App() {
+const client = new QueryClient();
+  const [username, setUsername] = useState("Evgeny")
   return (    
-    <div className="App">      
-      <Router>
-        <div>NAVBAR
-          <Link to="/">Home</Link> 
-          <Link to="/Menu" >Menu</Link> 
-        </div>
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/menu" element={<Menu />}/>
-          <Route path="*" element={page404()} />} />
-        </Routes>
-      </Router>
+    <div className="App">  
+      <QueryClientProvider client={client}> 
+        <AppContext.Provider value={{username, setUsername}}>   
+          <Router>
+            <Navbar />
+            <Routes>
+              <Route path="/"  element={<Home/>}/>
+              <Route path="/profile" element={<Profile />}/>
+              <Route path="/menu" element={<Menu />}/>
+              <Route path="*" element={page404()} />
+            </Routes>
+          </Router>
+        </AppContext.Provider> 
+      </QueryClientProvider> 
     </div>
   );
   
